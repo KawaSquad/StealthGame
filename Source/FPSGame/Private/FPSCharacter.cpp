@@ -45,7 +45,6 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 }
 
-
 void AFPSCharacter::Fire()
 {
 	// try and fire a projectile

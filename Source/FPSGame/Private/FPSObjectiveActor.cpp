@@ -27,8 +27,7 @@ AFPSObjectiveActor::AFPSObjectiveActor()
 void AFPSObjectiveActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	PlayEffect();
+	//PlayEffect();
 }
 
 void AFPSObjectiveActor::PlayEffect()

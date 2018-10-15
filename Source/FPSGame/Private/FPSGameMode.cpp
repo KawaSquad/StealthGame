@@ -4,6 +4,7 @@
 #include "FPSHUD.h"
 #include "FPSCharacter.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 AFPSGameMode::AFPSGameMode()
 {
@@ -19,7 +20,29 @@ void AFPSGameMode::CompletedMission(APawn * InstigatorPawn)
 {
 	if (InstigatorPawn)
 	{
-		InstigatorPawn->DisableInput(nullptr);
+		if (SpectatingViewpointClass != nullptr)
+		{
+			InstigatorPawn->DisableInput(nullptr);
+
+			TArray <AActor*> OutActors;
+
+			UGameplayStatics::GetAllActorsOfClass(this, SpectatingViewpointClass, OutActors);
+
+			if (OutActors.Num() > 0)
+			{
+				AActor *NewViewActor = OutActors[0];
+
+				APlayerController * PC = Cast<APlayerController>(InstigatorPawn->GetController());
+				if (PC)
+				{
+					PC->SetViewTargetWithBlend(NewViewActor, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic);
+				}
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Spectating class == nullptr"));
+		}
 	}
 	OnMissionCompleted(InstigatorPawn);
 }
