@@ -33,10 +33,24 @@ void AFPSAIGuard::OnPawnSee(APawn* Pawn)
 
 void AFPSAIGuard::OnNoiseHear(APawn* NoiseInstigator, const FVector& Location, float Volume)
 {
-	if (Instigator == nullptr)
-		return;
+	FVector Direction = Location - GetActorLocation();
+	Direction.Normalize();
+	FRotator NewLook = FRotationMatrix::MakeFromX(Direction).Rotator();
+
+	NewLook.Pitch = 0.0f;
+	NewLook.Roll = 0.0f;
+
+	SetActorRotation(NewLook, ETeleportType::None);
+
+	GetWorldTimerManager().ClearTimer(Timerhandle_ResetOrientation);
+	GetWorldTimerManager().SetTimer(Timerhandle_ResetOrientation,this,&AFPSAIGuard::ResetOrientation,3.0f);
 
 	DrawDebugSphere(GetWorld(), Location, 32.0f*Volume, 12, FColor::Red, false, 10.0f);
+}
+
+void AFPSAIGuard::ResetOrientation()
+{
+	SetActorRotation(OriginalRotation);
 }
 
 // Called every frame
