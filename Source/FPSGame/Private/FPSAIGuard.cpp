@@ -11,7 +11,9 @@ AFPSAIGuard::AFPSAIGuard()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
+
 	PawnSensingComp->OnSeePawn.AddDynamic(this, &AFPSAIGuard::OnPawnSee);
+	PawnSensingComp->OnHearNoise.AddDynamic(this, &AFPSAIGuard::OnNoiseHear);
 }
 
 // Called when the game starts or when spawned
@@ -27,6 +29,14 @@ void AFPSAIGuard::OnPawnSee(APawn* Pawn)
 		return;
 
 	DrawDebugSphere(GetWorld(), Pawn->GetActorLocation(), 32.0f, 12, FColor::Yellow, false, 10.0f);
+}
+
+void AFPSAIGuard::OnNoiseHear(APawn* NoiseInstigator, const FVector& Location, float Volume)
+{
+	if (Instigator == nullptr)
+		return;
+
+	DrawDebugSphere(GetWorld(), Location, 32.0f*Volume, 12, FColor::Red, false, 10.0f);
 }
 
 // Called every frame

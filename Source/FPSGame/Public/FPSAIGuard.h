@@ -24,7 +24,10 @@ protected:
 	UPawnSensingComponent * PawnSensingComp;
 
 	UFUNCTION()
-	void OnPawnSee(APawn* Pawn);
+		void OnPawnSee(APawn* Pawn);
+
+	UFUNCTION()
+		void OnNoiseHear(APawn* NoiseInstigator, const FVector& Location, float Volume);
 
 public:	
 	// Called every frame
