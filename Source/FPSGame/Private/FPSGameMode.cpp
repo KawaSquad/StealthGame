@@ -16,7 +16,7 @@ AFPSGameMode::AFPSGameMode()
 	HUDClass = AFPSHUD::StaticClass();
 }
 
-void AFPSGameMode::CompletedMission(APawn * InstigatorPawn)
+void AFPSGameMode::CompletedMission(APawn * InstigatorPawn,bool bMissionSuccess)
 {
 	if (InstigatorPawn)
 	{
@@ -44,5 +44,5 @@ void AFPSGameMode::CompletedMission(APawn * InstigatorPawn)
 			UE_LOG(LogTemp, Warning, TEXT("Spectating class == nullptr"));
 		}
 	}
-	OnMissionCompleted(InstigatorPawn);
+	OnMissionCompleted(InstigatorPawn, bMissionSuccess);
 }
