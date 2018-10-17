@@ -8,6 +8,12 @@
 
 class UPawnSensingComponent;
 
+UENUM(BlueprintType)
+enum class EAIState : uint8
+{
+	Idle, Suspicious, Alarted,
+};
+
 UCLASS()
 class FPSGAME_API AFPSAIGuard : public ACharacter
 {
@@ -36,7 +42,29 @@ protected:
 
 	FTimerHandle Timerhandle_ResetOrientation;
 
+	EAIState EGuardState;
 
+	UFUNCTION()
+		void SetGuardState(EAIState NewState);
+	UFUNCTION()
+		void GotoTarget();
+	UFUNCTION()
+		void GotoNextTarget();
+
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "AI")
+		void OnStateChange(EAIState NewState);
+
+
+	UPROPERTY(EditInstanceOnly, Category = "AI")
+		bool isPatrol;
+
+	UPROPERTY(EditInstanceOnly, Category = "AI", meta = (EditCondition = "isPatrol"))
+		TArray<AActor*> targets;
+
+	UPROPERTY(VisibleAnywhere, Category = "AI", meta = (EditCondition = "isPatrol"))
+		int indexTarget;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;	
