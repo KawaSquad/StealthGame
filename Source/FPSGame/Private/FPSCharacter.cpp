@@ -85,6 +85,16 @@ void AFPSCharacter::Fire()
 }
 
 
+void AFPSCharacter::ServerFire_Implementation()
+{
+
+}
+
+bool AFPSCharacter::ServerFire_Validate()
+{
+	return true;
+}
+
 void AFPSCharacter::MoveForward(float Value)
 {
 	if (Value != 0.0f)
