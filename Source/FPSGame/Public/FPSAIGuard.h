@@ -42,7 +42,10 @@ protected:
 
 	FTimerHandle Timerhandle_ResetOrientation;
 
+	UPROPERTY(ReplicatedUsing=OnRep_GuardState)
 	EAIState EGuardState;
+	UFUNCTION()
+		void OnRep_GuardState();
 
 	UFUNCTION()
 		void SetGuardState(EAIState NewState);
